@@ -1,0 +1,6 @@
+Name: musl
+Contact: musl@lists.openwall.com
+FAQ: https://www.musl-libc.org/faq.html
+Repository: git://git.musl-libc.org/musl
+Repository-Browse: https://git.musl-libc.org/cgit/musl
+Security-Contact: Rich Felker <dalias@aerifal.cx>

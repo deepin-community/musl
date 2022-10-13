@@ -1,0 +1,2 @@
+/lib/${env:MUSL_TRIPLE}/libc.so /usr/bin/musl-ldd
+/usr/bin/${env:MUSL_TRIPLE}-gcc /usr/bin/musl-gcc

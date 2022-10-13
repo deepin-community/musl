@@ -1,0 +1,4 @@
+../scripts/${env:MUSL_TRIPLE}.path etc/ld-musl-${env:MUSL_ARCH}.d
+../scripts/ld-musl-${env:MUSL_ARCH}.path etc
+../scripts/ld-musl-config usr/bin
+usr/lib/${env:MUSL_TRIPLE}/libc.so lib/${env:MUSL_TRIPLE}

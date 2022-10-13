@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = 'configure' -a ! -e /usr/lib/@MUSL_TRIPLE@/libc.so ]; then
+  ln -s /lib/@MUSL_TRIPLE@/libc.so /usr/lib/@MUSL_TRIPLE@/libc.so
+fi
+
+#DEBHELPER#
+

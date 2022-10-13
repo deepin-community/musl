@@ -1,0 +1,3 @@
+usr/include/${env:MUSL_TRIPLE}/*
+usr/lib/${env:MUSL_TRIPLE}/*.a
+usr/lib/${env:MUSL_TRIPLE}/*.o

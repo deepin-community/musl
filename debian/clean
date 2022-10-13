@@ -1,0 +1,7 @@
+debian/musl-dev.postinst
+debian/musl-dev.postrm
+debian/scripts/*.path
+include/crypt.h
+src/crypt/
+include/fts.h
+src/fts/

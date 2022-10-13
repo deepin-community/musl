@@ -1,0 +1,1 @@
+/lib/${env:MUSL_TRIPLE}/libc.so /lib/ld-musl-${env:MUSL_ARCH}.so.1

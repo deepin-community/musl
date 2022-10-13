@@ -1,0 +1,99 @@
+#!/usr/bin/make -f
+export DH_OPTIONS
+
+DEB_HOST_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_HOST_GNU_CPU ?= $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)
+DEB_HOST_ARCH_CPU ?= $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+
+# Handle x86_64 -> x86-64
+HOST_GNU_TYPE_PKG=$(subst _,-,$(DEB_HOST_GNU_TYPE))
+
+# Calculating musl based architecture
+MUSL_ARCH=$(DEB_HOST_GNU_CPU)
+MUSL_TRIPLE=$(DEB_HOST_GNU_CPU)-linux-musl
+
+ifneq (,$(findstring armel,$(DEB_HOST_ARCH)))
+  MUSL_ARCH=arm
+  MUSL_TRIPLE=arm-linux-musleabi
+endif
+
+ifneq (,$(findstring armhf,$(DEB_HOST_ARCH)))
+  MUSL_ARCH=armhf
+  MUSL_TRIPLE=arm-linux-musleabihf
+endif
+
+ifeq ($(DEB_HOST_ARCH_CPU),i386)
+  MUSL_ARCH=i386
+  MUSL_TRIPLE=i386-linux-musl
+endif
+
+ifeq ($(DEB_HOST_ARCH_CPU),sh4)
+  MUSL_ARCH=sh
+  MUSL_TRIPLE=sh-linux-musl
+endif
+
+ifneq (,$(findstring ppc64el,$(DEB_HOST_ARCH)))
+  export DEB_CFLAGS_MAINT_APPEND += -mlong-double-64
+endif
+
+export MUSL_ARCH
+export MUSL_TRIPLE
+
+CC=$(DEB_HOST_GNU_TYPE)-gcc
+CROSS_COMPILE=$(DEB_HOST_GNU_TYPE)-
+export CROSS_COMPILE
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# Substitute control file variables depending on the debian libc type
+# If musl is the native libc, we can provide libc and depend on linux-libc-dev
+ifneq (,$(filter musl-%,$(DEB_HOST_ARCH)))
+  GENCTRL_OPTIONS = -Vlibc-dev:Provides=libc-dev -Vlinux-libc-dev:Depends=linux-libc-dev
+  GCC_WRAPPER = no
+else
+  GENCTRL_OPTIONS = -Vlinux-musl-dev:Recommends=linux-musl-dev -Vgcc:Depends=gcc-$(HOST_GNU_TYPE_PKG)
+  GCC_WRAPPER = yes
+endif
+
+%:
+	dh $@
+
+debian/scripts/$(MUSL_TRIPLE).path: debian/scripts/config.path.in
+	sed 's/@MUSL_TRIPLE@/$(MUSL_TRIPLE)/g' $< > $@
+	cp debian/scripts/$(MUSL_TRIPLE).path debian/scripts/ld-musl-$(MUSL_ARCH).path
+
+copy_fts:
+	mkdir -p src/fts
+	cp debian/musl-fts/fts.c debian/musl-fts/config.h src/fts/
+	cp debian/musl-fts/fts.h include/
+
+override_dh_auto_configure: debian/scripts/$(MUSL_TRIPLE).path copy_fts
+	dh_auto_configure -- --libdir=/usr/lib/$(MUSL_TRIPLE) --includedir=/usr/include/$(MUSL_TRIPLE) --host=$(DEB_HOST_GNU_TYPE) --enable-gcc-wrapper=$(GCC_WRAPPER) --enable-debug
+
+execute_after_dh_auto_install:
+	rm debian/tmp/usr/lib/$(MUSL_TRIPLE)/libcrypt.a
+
+execute_after_dh_install:
+ifeq ($(GCC_WRAPPER),yes)
+	mkdir -p  debian/musl-dev/usr/bin
+	mv debian/tmp/usr/bin/musl-gcc debian/musl-dev/usr/bin/$(MUSL_TRIPLE)-gcc
+	mv debian/tmp/usr/lib/$(MUSL_TRIPLE)/musl-gcc.specs debian/musl-dev/usr/lib/$(MUSL_TRIPLE)/musl-gcc.specs
+endif
+
+override_dh_fixperms:
+	dh_fixperms --exclude libc.so
+
+override_dh_gencontrol:
+	dh_gencontrol -- $(GENCTRL_OPTIONS)
+
+override_dh_installdeb:
+	sed 's/@MUSL_TRIPLE@/$(MUSL_TRIPLE)/g' \
+		debian/musl-dev.postinst.in > debian/musl-dev.postinst
+	sed 's/@MUSL_TRIPLE@/$(MUSL_TRIPLE)/g' \
+		debian/musl-dev.postrm.in > debian/musl-dev.postrm
+	dh_installdeb
+
+override_dh_installchangelogs:
+	dh_installchangelogs WHATSNEW

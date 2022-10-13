@@ -1,0 +1,73 @@
+Source: musl
+Section: libs
+Priority: optional
+Maintainer: Reiner Herrmann <reiner@reiner-h.de>
+Build-Depends: debhelper-compat (= 13),
+               gcc-aarch64-linux-gnu [arm64],
+               gcc-arm-linux-gnueabi [armel],
+               gcc-arm-linux-gnueabihf [armhf],
+               gcc-i686-linux-gnu [i386],
+               gcc-m68k-linux-gnu [m68k],
+               gcc-mips-linux-gnu [mips],
+               gcc-mips64el-linux-gnuabi64 [mips64el],
+               gcc-mipsel-linux-gnu [mipsel],
+               gcc-powerpc64le-linux-gnu [ppc64el],
+               gcc-riscv64-linux-gnu [riscv64],
+               gcc-s390x-linux-gnu [s390x],
+               gcc-sh4-linux-gnu [sh4],
+               gcc-x86-64-linux-gnu [amd64]
+Standards-Version: 4.6.0
+Homepage: https://musl.libc.org/
+Vcs-Git: https://salsa.debian.org/reiner/musl.git
+Vcs-Browser: https://salsa.debian.org/reiner/musl
+Rules-Requires-Root: no
+
+Package: musl
+Architecture: arm64 musl-linux-arm64 armel armhf musl-linux-armhf i386 musl-linux-i386 amd64 musl-linux-amd64 m68k musl-linux-m68k mips musl-linux-mips mipsel musl-linux-mipsel mips64el musl-linux-mips64el s390x musl-linux-s390x sh4 musl-linux-sh4 ppc64el musl-linux-ppc64el riscv64 musl-linux-riscv64
+Multi-Arch: same
+Depends: ${misc:Depends}
+Description: standard C library
+ musl is lightweight, fast, simple, free and strives
+ to be correct in the sense of standards-conformance
+ and safety.
+ .
+ This package contains the shared objects
+
+Package: musl-dev
+Section: libdevel
+Architecture: arm64 musl-linux-arm64 armel armhf musl-linux-armhf i386 musl-linux-i386 amd64 musl-linux-amd64 m68k musl-linux-m68k mips musl-linux-mips mipsel musl-linux-mipsel mips64el musl-linux-mips64el s390x musl-linux-s390x sh4 musl-linux-sh4 ppc64el musl-linux-ppc64el riscv64 musl-linux-riscv64
+Multi-Arch: same
+Provides: ${libc-dev:Provides}, musl-fts
+Depends: musl (= ${binary:Version}),
+         ${gcc:Depends},
+         ${linux-libc-dev:Depends},
+         ${misc:Depends}
+Recommends: ${linux-musl-dev:Recommends}
+Replaces: musl-tools (<< 1.2.2-2)
+Breaks: musl-tools (<< 1.2.2-2)
+Description: standard C library development files
+ musl is lightweight, fast, simple, free and strives
+ to be correct in the sense of standards-conformance
+ and safety.
+ .
+ This package contains the static linked libraries
+ and the include files.
+ .
+ This package also contains the specs file and gcc
+ wrapper script for cross-compilation. For the native
+ musl-gcc script, install the musl-tools package.
+
+Package: musl-tools
+Section: devel
+Architecture: amd64 arm64 armel armhf i386 m68k mips mips64el mipsel ppc64el riscv64 s390x sh4
+Depends: musl-dev (= ${binary:Version}), ${misc:Depends}
+Replaces: musl (<< 1.1.15-1)
+Breaks: musl (<< 1.1.15-1)
+Description: standard C library tools
+ musl is lightweight, fast, simple, free and strives
+ to be correct in the sense of standards-conformance
+ and safety.
+ .
+ This package contains the musl-gcc wrapper script for
+ the native architecture, to make easy-to-deploy static
+ and minimal dynamically linked programs.

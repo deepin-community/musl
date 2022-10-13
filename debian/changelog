@@ -1,0 +1,396 @@
+musl (1.2.2-4) unstable; urgency=medium
+
+  * Import musl-fts. (Closes: #989746)
+    - musl-dev provides musl-fts
+    - document copyright
+    - test compilation in autopkgtest
+  * Revert "Point to experimental branch in Vcs-Git".
+  * Bump Standards-Version to 4.6.0.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Sat, 21 Aug 2021 12:49:23 +0200
+
+musl (1.2.2-3) experimental; urgency=medium
+
+  * musl-dev on musl-any-any:
+    - drop gcc dependency, which does not exist while bootstrapping
+    - don't install musl-gcc wrapper, which is not useful on this arch
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Fri, 30 Apr 2021 00:26:14 +0200
+
+musl (1.2.2-2) experimental; urgency=medium
+
+  [ Helmut Grohne ]
+  * Remove crypt functionality and drop crypt.h header. (Closes: #947193)
+
+  [ Josh Triplett ]
+  * Provide cross-compilation versions of musl-gcc. (Closes: #873364)
+
+  [ Reiner Herrmann ]
+  * Add Breaks and Replaces to musl-dev, as it has taken over specs file.
+  * Replace override_dh_clean with d/clean.
+  * Drop usage of dh-exec.
+    Thanks to Nicolas Boulenguez for initial idea, Niels Thykier for hint
+    about debhelper's built-in substitution. (Closes: #982782)
+  * wrap-and-sort
+  * Point to experimental branch in Vcs-Git.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Thu, 29 Apr 2021 19:26:09 +0200
+
+musl (1.2.2-1) unstable; urgency=medium
+
+  * New upstream release.
+    - fix wcsnrtombs destination buffer overflow (CVE-2020-28928)
+      (Closes: #975365)
+  * Fix MUSL_ARCH/MUSL_TRIPLE on sh4 (-> sh). (Closes: #977130)
+  * Update copyrights.
+  * Update watch file to version 4.
+  * Bump Standards-Version to 4.5.1.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Fri, 15 Jan 2021 19:03:01 +0100
+
+musl (1.2.1-1) unstable; urgency=medium
+
+  * New upstream release.
+    - new malloc implementation (mallocng)
+  * Update copyrights, bump copyright years and reorder sections.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Tue, 04 Aug 2020 20:05:24 +0200
+
+musl (1.2.0-1) unstable; urgency=medium
+
+  * New upstream release.
+    - 64-bit time_t on all archs
+  * Update upstream homepage.
+  * Bump Standards-Version to 4.5.0.
+  * Bump debhelper compat level to 13.
+  * Update lintian-overrides with changed tag name.
+  * Update Vcs-* URLs.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Fri, 03 Jul 2020 20:38:19 +0200
+
+musl (1.1.24-1) unstable; urgency=medium
+
+  * New upstream release.
+    - drop cherry-picked patch
+  * Bump Standards-Version to 4.4.1.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Mon, 14 Oct 2019 00:56:01 +0200
+
+musl (1.1.23-2) unstable; urgency=high
+
+  * Cherry-pick patch to fix x87 stack imbalance in corner cases of
+    i386 math asm (CVE-2019-14697).
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Tue, 06 Aug 2019 19:56:45 +0200
+
+musl (1.1.23-1) unstable; urgency=medium
+
+  * New upstream release.
+  * New supported architecture: riscv64
+  * Revert "Point to experimental branch in Vcs-Git".
+  * Update debian/copyright.
+  * Bump Standards-Version to 4.4.0; no changes needed.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Wed, 17 Jul 2019 19:27:50 +0200
+
+musl (1.1.22-1) experimental; urgency=medium
+
+  * New upstream release.
+  * Point to experimental branch in Vcs-Git.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Thu, 11 Apr 2019 18:41:58 +0200
+
+musl (1.1.21-2) unstable; urgency=medium
+
+  * Revert "Install ld.so symlink with dh_install instead of dh_link".
+    The upstream symlink was pointing to /usr/lib/${TRIPLE}/libc.so, which
+    is part of a different package (musl-dev).
+  * Add /lib/ld-musl-*.so.1 symlink to debian/not-installed, to tell
+    dh_missing that it is deliberately not installed.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Wed, 23 Jan 2019 20:32:39 +0100
+
+musl (1.1.21-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Bump Standards-Version to 4.3.0.
+  * Depend on debhelper-compat and bump compat level to 12.
+  * Install ld.so symlink with dh_install instead of dh_link.
+    dh_missing was confused by symlink that was also installed by
+    upstream Makefile.
+  * Declare that debian/rules does not require root.
+  * Update debian/copyright and bump years.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Tue, 22 Jan 2019 20:23:18 +0100
+
+musl (1.1.20-1) unstable; urgency=medium
+
+  * New upstream release.
+  * New supported architecture: m68k
+  * Bump Standards-Version to 4.2.1.
+  * Drop patch for working around binutils static linking bug.
+    binutils fix is included in 2.31.1-2 (with a follow up in 2.31.1-3).
+  * Drop patch with musl-gcc workaround for linking with default-pie
+    toolchains, as the upstream specs file now includes a better solution.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Tue, 04 Sep 2018 22:31:55 +0200
+
+musl (1.1.19-2) unstable; urgency=medium
+
+  * Workaround binutils 2.31 bug that broke static linking.
+    Thanks to Szabolcs Nagy for the analysis and workaround.
+  * Bump Standards-Version to 4.1.5.
+  * Add binutils to test dependencies to trigger autopkgtest runs when
+    they are updated.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Thu, 19 Jul 2018 18:52:03 +0200
+
+musl (1.1.19-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Move packaging VCS to salsa.
+  * Bump Standards-Version to 4.1.3.
+  * Bump debhelper compat/dependency to 11.
+  * Fix spelling error found by lintian.
+  * Override lintian warning application-in-library-section for musl.
+  * Add upstream metadata file.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Sun, 25 Feb 2018 18:54:30 +0100
+
+musl (1.1.18-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Drop patch applied upstream.
+  * Remove trailing whitespace in d/changelog and d/rules.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Tue, 31 Oct 2017 21:57:13 +0100
+
+musl (1.1.17-2) unstable; urgency=medium
+
+  * Fix build failure on armel because of unsupported instruction.
+    Thanks to Adrian Bunk for providing the patch. (Closes: #879190)
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Fri, 20 Oct 2017 18:19:33 +0200
+
+musl (1.1.17-1) unstable; urgency=high
+
+  * New upstream release.
+    - Fixes security issue: buffer overflow in dns response parsing
+      (CVE-2017-15650)
+  * Drop patches applied upstream.
+  * Update Standards-Version to 4.1.1.
+    - change priority to optional
+  * Switch http URLs to https.
+  * Bump copyright years for 2017.
+  * Mark musl-dev as Multi-Arch: same (Closes: #873363)
+    - add lintian override for musl-specific directory unknown to lintian
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Thu, 19 Oct 2017 23:08:39 +0200
+
+musl (1.1.16-3) unstable; urgency=medium
+
+  * Import upstream fix for PPC64 crash.
+    Thanks to Breno Leitao for investigating. (Closes: #857078)
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Thu, 09 Mar 2017 19:19:31 +0100
+
+musl (1.1.16-2) unstable; urgency=medium
+
+  [ Breno Leitao ]
+  * Enable building on ppc64el. (Closes: #851686)
+
+  [ Reiner Herrmann ]
+  * Fix build failure on armhf with newer binutils. (Closes: #852214)
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Sun, 22 Jan 2017 18:18:26 +0100
+
+musl (1.1.16-1) unstable; urgency=low
+
+  * New upstream release.
+  * New supported architecture: s390x
+  * Remove patch cve-2016-8859.diff (applied upstream).
+  * Bump debhelper compatibility to 10.
+    - drop --parallel, which is now default.
+  * Use Debian buildflags and enable all hardening options.
+  * Remove ancient version restrictions on gcc and dh-exec.
+  * Disable PIE linking in musl-gcc wrapper to workaround linking issues
+    (Closes: #847776).
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Tue, 03 Jan 2017 22:38:49 +0100
+
+musl (1.1.15-2) unstable; urgency=high
+
+  * Cherry-pick upstream fix for regex integer overflow in buffer size
+    computations; CVE-2016-8859 (Closes: #842171)
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Thu, 27 Oct 2016 18:53:49 +0200
+
+musl (1.1.15-1) unstable; urgency=low
+
+  * New upstream release.
+  * New supported architectures: mips64el, sh4
+  * debian/control:
+    - Adopt package, update maintainer. (Closes: #830176)
+    - Remove unneeded XS-Testsuite field
+    - Change Vcs-* fields to point to collab-maint.
+    - Bump Standards-Version to 3.9.8.
+  * Add upstream's signing key.
+  * Check PGP signature when importing upstream releases.
+  * Move musl-ldd symlink from musl to musl-tools. (Closes: #803577)
+  * Drop ARM thumb compatibility patch (applied upstream).
+  * Install upstream changelog.
+  * postinst/postrm: Set -e in body instead of shebang.
+  * Fix manpage typos found by lintian.
+  * Remove duplicate mdoc manpages.
+  * Build with debugging symbols to support dbgsym packages.
+  * Update copyrights; remove trailing whitespace.
+  * Amend autopkgtest to test dynamic linking.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Fri, 08 Jul 2016 14:38:17 +0200
+
+musl (1.1.9-1.2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Always enable gcc wrapper, as it is no longer required for gcc6,
+    but is still useful for older gcc versions. (Closes: #812278)
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Wed, 06 Jul 2016 21:07:23 +0200
+
+musl (1.1.9-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Create /usr/lib/$MUSL_TRIPLE/libc.so in postinst to support merged /usr
+    systems. (Closes: #766812)
+
+ -- Marco d'Itri <md@linux.it>  Sat, 06 Feb 2016 01:12:33 +0100
+
+musl (1.1.9-1) unstable; urgency=low
+
+  [ Kevin Bortis ]
+  * Import upstream version 1.1.9
+  * Provide linux-libc-dev on musl-linux-any
+
+  [ Helmut Grohne ]
+  * Build musl for the corresponding musl-linux-any (Closes: #783078)
+  * Provide libc-dev on musl-linux-any
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Wed, 29 Apr 2015 18:16:36 +0200
+
+musl (1.1.8-1~exp1) experimental; urgency=low
+
+  * Import upstream version 1.1.8
+  * Fixes possible stack-based buffer overflow CVE-2015-1817
+  * Includes new aarch64 port
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Tue, 31 Mar 2015 19:49:20 +0200
+
+musl (1.1.5-1) unstable; urgency=low
+
+  [ Kevin Bortis ]
+  * Import upstream version 1.1.5
+  * New library-level C11 support
+
+  [ Anton Gladky ]
+  * Set Standards-Version: 3.9.6. No changes.
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Tue, 14 Oct 2014 21:13:35 +0200
+
+musl (1.1.4-1) unstable; urgency=low
+
+  * Import upstream version 1.1.4. (Closes: #754758)
+  * Fixes possible stack-based buffer overflow CVE-2014-3484 (Closes: #750815)
+  * Includes fix for build regression on armhf and armel
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Mon, 26 May 2014 22:45:52 +0200
+
+musl (1.1.0-1) unstable; urgency=low
+
+  [ Kevin Bortis ]
+  * Import upstream version 1.1.0
+
+  [ Anton Gladky ]
+  * Add autopkgtest according to DEP-8
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Fri, 25 Apr 2014 19:49:40 +0000
+
+musl (1.0.0-1) unstable; urgency=medium
+
+  * Import upstream version 1.0.0
+  * Provide musl-ldd (Closes: #732169)
+  * Arch independent ld-musl-config (Closes: #739205)
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Sat, 22 Mar 2014 09:39:56 +0100
+
+musl (0.9.15-1) unstable; urgency=low
+
+  * Import upstream version 0.9.15
+  * Do no longer provide libc-dev (Closes: #725376)
+  * Make runtime package multi-arch (Closes: #732170)
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Sun, 05 Jan 2014 20:11:11 +0100
+
+musl (0.9.14-2) unstable; urgency=low
+
+  * Make musl-tools depend on musl-dev (Closes: #725060)
+  * Place each package in the correct section (Closes: #725148)
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Fri, 04 Oct 2013 21:45:54 +0200
+
+musl (0.9.14-1) unstable; urgency=low
+
+  * Import upstream version 0.9.14
+  * Only build on fully supported architectures
+  * Point to new homepage in control file (Closes: #724277)
+  * Revorked debian/rules
+  * Solved possible problem with postrm script (Closes: #724247)
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Fri, 27 Sep 2013 23:47:18 +0200
+
+musl (0.9.13-3) unstable; urgency=low
+
+  * Ready for Debian upload  (Closes: #713072)
+  * Respect user set CC
+  * Reworked package according to feedback given
+    by Anton Gladky. See #721839 for reference.
+  * Reworked debian/copyright file according to
+    feedback given by Paul Richards Tagliamonte
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Fri, 20 Sep 2013 20:54:14 +0200
+
+musl (0.9.13-2) unstable; urgency=low
+
+  * Added preliminary manpages for ld-musl-config and musl-gcc
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Fri, 20 Sep 2013 19:20:33 +0200
+
+musl (0.9.13-1) unstable; urgency=low
+
+  * Import upstream version 0.9.13
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Sun, 01 Sep 2013 22:20:46 +0200
+
+musl (0.9.12-2) unstable; urgency=low
+
+  * Corrected lintian error "description-starts-with-package-name"
+  * Corrected lintian warning "shared-lib-without-dependency-information"
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Fri, 02 Aug 2013 15:22:17 +0200
+
+musl (0.9.12-1) unstable; urgency=low
+
+  * Import upstream version 0.9.12
+  * New LDSO_PATHNAME for armhf (/etc/ld-musl-armhf.path)
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Mon, 29 Jul 2013 15:46:21 +0000
+
+musl (0.9.11-1) unstable; urgency=low
+
+  * Import upstream version 0.9.11
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Sun, 30 Jun 2013 18:16:00 +0200
+
+musl (0.9.10-1) unstable; urgency=low
+
+  * Initial release (Closes: #713072)
+
+ -- Kevin Bortis <pkgs@bortis.ch>  Fri, 21 Jun 2013 17:12:20 +0200

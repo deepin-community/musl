@@ -1,0 +1,54 @@
+#!/bin/sh
+# autopkgtest check: Build and run a program with the help of musl-gcc
+# (C) 2013 Thomas Moulard
+# (C) 2014 Anton Gladky
+# Author: Thomas Moulard <thomas.moulard@gmail.com>
+#         Anton Gladky <gladk@debian.org>
+
+set -e
+
+WORKDIR=$(mktemp -d)
+trap "rm -rf $WORKDIR" 0 INT QUIT ABRT PIPE TERM
+cd $WORKDIR
+cat <<EOF > hello.c
+#include <stdio.h>
+int main(int argc, char **argv)
+{
+  printf("hello %d\n", argc);
+  return 0;
+}
+EOF
+
+musl-gcc -static -Os -o hello hello.c
+echo "build (static): OK"
+[ -x hello ]
+./hello
+echo "run (static): OK"
+rm hello
+
+musl-gcc -Os -o hello hello.c
+echo "build (dynamic): OK"
+[ -x hello ]
+./hello
+echo "run (dynamic): OK"
+
+
+# test building with imported musl-fts
+cat <<EOF > fts.c
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fts.h>
+#include <stddef.h>
+int main(int argc, char **argv)
+{
+  char *path_argv[] = {"/", NULL};
+  FTS *fts = fts_open(path_argv, 0, NULL);
+  fts_close(fts);
+  return 0;
+}
+EOF
+musl-gcc -Os -o fts fts.c
+echo "build (fts): OK"
+[ -x fts ]
+./fts
+echo "run (fts): OK"

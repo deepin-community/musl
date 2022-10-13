@@ -1,0 +1,7 @@
+# musl needs to use its own namespace to not conflict with other libcs
+# The installed files are the same for CPU architecture
+musl-dev binary: triplet-dir-and-architecture-mismatch
+# musl needs to use its own namespace to not conflict with other libcs
+musl-dev binary: arch-dependent-file-not-in-arch-specific-directory
+# manpage for musl-gcc lives in musl-tools
+musl-dev binary: no-manual-page

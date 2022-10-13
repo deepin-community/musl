@@ -1,0 +1,11 @@
+# musl libc.so does not depend on anything
+musl binary: shared-library-lacks-prerequisites
+# musl needs to use its own namespace to not conflict with other libcs
+musl binary: arch-dependent-file-not-in-arch-specific-directory
+# musl has no SONAME and version by design
+musl binary: sharedobject-in-library-directory-missing-soname
+# musl needs to use its own namespace to not conflict with other libcs
+# The installed files are the same for CPU architecture
+musl binary: triplet-dir-and-architecture-mismatch
+# helper script for updating linker path config
+musl binary: application-in-library-section libs usr/bin/ld-musl-config
