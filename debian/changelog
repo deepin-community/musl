@@ -1,3 +1,15 @@
+musl (1.2.2-4deepin1) unstable; urgency=medium
+
+  * Fix CVE-2025-26519: out-of-bounds write in iconv EUC-KR decoder
+    This vulnerability allows attackers to trigger memory corruption
+    through malicious EUC-KR encoded text during iconv conversion to UTF-8.
+    
+    Patches applied:
+    - e5adcd97b5: Fix erroneous input validation in EUC-KR decoder
+    - c47ad25ea3: Harden UTF-8 output code path against decoder bugs
+
+ -- deepin-ci-robot <packages@deepin.org>  Wed, 06 May 2026 11:59:03 +0800
+
 musl (1.2.2-4) unstable; urgency=medium
 
   * Import musl-fts. (Closes: #989746)

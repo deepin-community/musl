@@ -1,0 +1,29 @@
+Description: Fix erroneous input validation in EUC-KR decoder
+ As a result of incorrect bounds checking on the lead byte being
+ decoded, certain invalid inputs which should produce an encoding
+ error, such as "\xc8\x41", instead produced out-of-bounds loads from
+ the ksc table.
+ .
+ In a worst case, the loaded value may not be a valid unicode scalar
+ value, in which case, if the output encoding was UTF-8, wctomb would
+ return (size_t)-1, causing an overflow in the output pointer and
+ remaining buffer size which could clobber memory outside of the output
+ buffer.
+ .
+ This fixes CVE-2025-26519.
+Author: Rich Felker <dalias@aerifal.cx>
+Origin: upstream, https://git.musl-libc.org/cgit/musl/commit/?id=e5adcd97b5196e29991b524237381a0202a60659
+Bug: https://bugs.gentoo.org/949712
+Last-Update: 2025-02-09
+
+--- a/src/locale/iconv.c
++++ b/src/locale/iconv.c
+@@ -495,7 +495,7 @@ size_t iconv(iconv_t cd, char **restrict in, size_t *restrict inb, char **restri
+ 			if (c >= 93 || d >= 94) {
+ 				c += (0xa1-0x81);
+ 				d += 0xa1;
+-				if (c >= 93 || c>=0xc6-0x81 && d>0x52)
++				if (c > 0xc6-0x81 || c==0xc6-0x81 && d>0x52)
+ 					goto ilseq;
+ 				if (d-'A'<26) d = d-'A';
+ 				else if (d-'a'<26) d = d-'a'+26;
