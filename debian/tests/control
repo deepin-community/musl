@@ -1,2 +1,2 @@
 Tests: build
-Depends: binutils, build-essential, musl-tools
+Depends: binutils, build-essential, file, musl-tools

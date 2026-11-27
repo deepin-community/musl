@@ -5,3 +5,10 @@ musl-dev binary: triplet-dir-and-architecture-mismatch
 musl-dev binary: arch-dependent-file-not-in-arch-specific-directory
 # manpage for musl-gcc lives in musl-tools
 musl-dev binary: no-manual-page
+musl-dev: no-code-sections [usr/lib/*/libdl.a]
+musl-dev: no-code-sections [usr/lib/*/libm.a]
+musl-dev: no-code-sections [usr/lib/*/libpthread.a]
+musl-dev: no-code-sections [usr/lib/*/libresolv.a]
+musl-dev: no-code-sections [usr/lib/*/librt.a]
+musl-dev: no-code-sections [usr/lib/*/libutil.a]
+musl-dev: no-code-sections [usr/lib/*/libxnet.a]

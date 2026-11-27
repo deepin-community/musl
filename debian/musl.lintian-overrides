@@ -8,4 +8,4 @@ musl binary: sharedobject-in-library-directory-missing-soname
 # The installed files are the same for CPU architecture
 musl binary: triplet-dir-and-architecture-mismatch
 # helper script for updating linker path config
-musl binary: application-in-library-section libs usr/bin/ld-musl-config
+musl binary: application-in-library-section libs [usr/bin/ld-musl-config]

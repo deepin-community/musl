@@ -1,0 +1,6 @@
+static-pie.patch
+CVE-2025-26519-0001_iconv_fix_erroneous_input_validation_in_EUC_KR_decod.patch
+CVE-2025-26519-0002_iconv_harden_UTF_8_output_code_path_against_input_de.patch
+renameat2.patch
+0001-fix-pathological-slowness-incorrect-mappings-in-icon.patch
+0002-qsort-fix-leonardo-heap-corruption-from-bug-in-doubl.patch
