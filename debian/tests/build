@@ -22,13 +22,23 @@ EOF
 musl-gcc -static -Os -o hello hello.c
 echo "build (static): OK"
 [ -x hello ]
+file hello | grep "statically linked"
 ./hello
 echo "run (static): OK"
+rm hello
+
+musl-gcc -fPIE -static-pie -Os -o hello hello.c
+echo "build (static-pie): OK"
+[ -x hello ]
+file hello | grep "static-pie linked"
+./hello
+echo "run (static-pie): OK"
 rm hello
 
 musl-gcc -Os -o hello hello.c
 echo "build (dynamic): OK"
 [ -x hello ]
+file hello | grep "dynamically linked"
 ./hello
 echo "run (dynamic): OK"
 

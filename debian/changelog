@@ -1,3 +1,83 @@
+musl (1.2.5-3.1~deb13u1) trixie; urgency=medium
+
+  * Non-maintainer upload.
+  * Rebuild for trixie.
+
+ -- Adrian Bunk <bunk@debian.org>  Sat, 09 May 2026 17:56:07 +0300
+
+musl (1.2.5-3.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * CVE-2026-6042: Algorithmic complexity DoS in iconv GB18030 decoder
+  * CVE-2026-40200: Stack corruption in qsort
+  * (Closes: #1133372)
+
+ -- Adrian Bunk <bunk@debian.org>  Thu, 07 May 2026 15:58:38 +0300
+
+musl (1.2.5-3) unstable; urgency=medium
+
+  * Provide renameat2 syscall wrapper. (Closes: #1105007)
+  * Bump copyright year.
+  * Bump Standards-Version to 4.7.2.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Sat, 17 May 2025 13:21:34 +0200
+
+musl (1.2.5-2) unstable; urgency=medium
+
+  * Import upstream fix for out-of-bounds write vulnerability. (CVE-2025-26519)
+    (Closes: #1098238)
+  * Bump Standards-Version to 4.7.1.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Sat, 22 Feb 2025 12:21:36 +0100
+
+musl (1.2.5-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Install ld-musl-*so* and libc.so into /usr (DEP17 M2). (Closes: #1073676)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 13 Aug 2024 20:37:19 +0200
+
+musl (1.2.5-1) unstable; urgency=medium
+
+  * New upstream release.
+  * New supported architecture: loong64.
+  * Fix watch file.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Mon, 25 Mar 2024 20:14:54 +0100
+
+musl (1.2.4-2) unstable; urgency=medium
+
+  * Fix typo in autopkgtest.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Fri, 10 Nov 2023 20:30:40 +0100
+
+musl (1.2.4-1) unstable; urgency=medium
+
+  [ Reiner Herrmann ]
+  * New upstream release.
+  * Set option to disable building with LTO, as it is not supported.
+    (Closes: #1015552)
+  * Stop recommending non-existing linux-musl-dev. (Closes: #1041559)
+  * Apply patch from Harald Hoyer to allow linking with static-pie.
+    (Closes: #996326)
+  * Add autopkgtest for static-pie linking.
+  * Update lintian overrides to new format.
+  * Bump Standards-Version to 4.6.2.
+
+  [ Helmut Grohne ]
+  * Restore crypt functionality in libc.{a,so} for ABI compatibility.
+    (Closes: #1022027)
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Thu, 09 Nov 2023 23:26:24 +0100
+
+musl (1.2.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Add lintian override for 'no-code-sections' as these libraries are
+    intentionally empty.
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Thu, 07 Apr 2022 22:48:37 +0200
+
 musl (1.2.2-4) unstable; urgency=medium
 
   * Import musl-fts. (Closes: #989746)

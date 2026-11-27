@@ -9,7 +9,7 @@ License: MIT
 
 Files: debian/*
 Copyright: 2013-2015 Kevin Bortis <pkgs@bortis.ch>
-           2016-2020 Reiner Herrmann <reiner@reiner-h.de>
+           2016-2025 Reiner Herrmann <reiner@reiner-h.de>
 License: MIT
 
 Files: arch/mips64/*

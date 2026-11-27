@@ -7,6 +7,7 @@ Build-Depends: debhelper-compat (= 13),
                gcc-arm-linux-gnueabi [armel],
                gcc-arm-linux-gnueabihf [armhf],
                gcc-i686-linux-gnu [i386],
+               gcc-loongarch64-linux-gnu [loong64],
                gcc-m68k-linux-gnu [m68k],
                gcc-mips-linux-gnu [mips],
                gcc-mips64el-linux-gnuabi64 [mips64el],
@@ -16,14 +17,14 @@ Build-Depends: debhelper-compat (= 13),
                gcc-s390x-linux-gnu [s390x],
                gcc-sh4-linux-gnu [sh4],
                gcc-x86-64-linux-gnu [amd64]
-Standards-Version: 4.6.0
+Standards-Version: 4.7.2
 Homepage: https://musl.libc.org/
 Vcs-Git: https://salsa.debian.org/reiner/musl.git
 Vcs-Browser: https://salsa.debian.org/reiner/musl
 Rules-Requires-Root: no
 
 Package: musl
-Architecture: arm64 musl-linux-arm64 armel armhf musl-linux-armhf i386 musl-linux-i386 amd64 musl-linux-amd64 m68k musl-linux-m68k mips musl-linux-mips mipsel musl-linux-mipsel mips64el musl-linux-mips64el s390x musl-linux-s390x sh4 musl-linux-sh4 ppc64el musl-linux-ppc64el riscv64 musl-linux-riscv64
+Architecture: arm64 musl-linux-arm64 armel armhf musl-linux-armhf i386 musl-linux-i386 amd64 musl-linux-amd64 loong64 musl-linux-loong64 m68k musl-linux-m68k mips musl-linux-mips mipsel musl-linux-mipsel mips64el musl-linux-mips64el s390x musl-linux-s390x sh4 musl-linux-sh4 ppc64el musl-linux-ppc64el riscv64 musl-linux-riscv64
 Multi-Arch: same
 Depends: ${misc:Depends}
 Description: standard C library
@@ -35,14 +36,13 @@ Description: standard C library
 
 Package: musl-dev
 Section: libdevel
-Architecture: arm64 musl-linux-arm64 armel armhf musl-linux-armhf i386 musl-linux-i386 amd64 musl-linux-amd64 m68k musl-linux-m68k mips musl-linux-mips mipsel musl-linux-mipsel mips64el musl-linux-mips64el s390x musl-linux-s390x sh4 musl-linux-sh4 ppc64el musl-linux-ppc64el riscv64 musl-linux-riscv64
+Architecture: arm64 musl-linux-arm64 armel armhf musl-linux-armhf i386 musl-linux-i386 amd64 musl-linux-amd64 loong64 musl-linux-loong64 m68k musl-linux-m68k mips musl-linux-mips mipsel musl-linux-mipsel mips64el musl-linux-mips64el s390x musl-linux-s390x sh4 musl-linux-sh4 ppc64el musl-linux-ppc64el riscv64 musl-linux-riscv64
 Multi-Arch: same
 Provides: ${libc-dev:Provides}, musl-fts
 Depends: musl (= ${binary:Version}),
          ${gcc:Depends},
          ${linux-libc-dev:Depends},
          ${misc:Depends}
-Recommends: ${linux-musl-dev:Recommends}
 Replaces: musl-tools (<< 1.2.2-2)
 Breaks: musl-tools (<< 1.2.2-2)
 Description: standard C library development files
@@ -59,7 +59,7 @@ Description: standard C library development files
 
 Package: musl-tools
 Section: devel
-Architecture: amd64 arm64 armel armhf i386 m68k mips mips64el mipsel ppc64el riscv64 s390x sh4
+Architecture: amd64 arm64 armel armhf i386 loong64 m68k mips mips64el mipsel ppc64el riscv64 s390x sh4
 Depends: musl-dev (= ${binary:Version}), ${misc:Depends}
 Replaces: musl (<< 1.1.15-1)
 Breaks: musl (<< 1.1.15-1)
